@@ -1,17 +1,18 @@
 
-import type { CharacterDataType } from "@/types/characterDataType";
-import { Page, Text, View, Document, StyleSheet, type DocumentProps, Font } from "@react-pdf/renderer";
-import { inputGroups } from "./inputGroups";
+import type { CharacterDataType } from '@/types/characterDataType';
+import { Page, Text, View, Document, StyleSheet, type DocumentProps, Font } from '@react-pdf/renderer';
+import { inputGroups } from './inputGroups';
+import { ROOT_PATH } from './constants';
 
 Font.register({
-    family: "NotoSansJP",
+    family: 'NotoSansJP',
     fonts: [
         {
-            src: "/fonts/NotoSansJP-Regular.ttf",
+            src: `${ROOT_PATH}fonts/NotoSansJP-Regular.ttf`,
         },
         {
-            src: "/fonts/NotoSansJP-Bold.ttf",
-            fontWeight: "bold",
+            src: `${ROOT_PATH}fonts/NotoSansJP-Bold.ttf`,
+            fontWeight: 'bold',
         },
     ],
 });
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     page: {
         padding: 30,
         fontSize: 11,
-        fontFamily: "NotoSansJP",
+        fontFamily: 'NotoSansJP',
     },
     section: {
         margin: 10,
@@ -30,23 +31,23 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 18,
         marginBottom: 20,
-        textAlign: "center",
-        fontWeight: "bold",
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     table: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         marginTop: 10,
     },
     row: {
-        width: "50%",
+        width: '50%',
         padding: 5,
-        border: "1pt solid #ccc",
-        boxSizing: "border-box",
+        border: '1pt solid #ccc',
+        boxSizing: 'border-box',
     },
     label: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
         marginBottom: 2,
     },
     value: {},
@@ -59,7 +60,7 @@ export const CharacterDataPdf = (props: CharacterDataPdfProps): React.ReactEleme
     return (
         <Document>
             {inputGroups.map(group => (
-                <Page size="A4" style={styles.page} key={group.id}>
+                <Page size='A4' style={styles.page} key={group.id}>
                     <Text style={styles.header}>{group.title}</Text>
 
                     <View style={styles.table}>
