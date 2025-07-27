@@ -1,50 +1,250 @@
 
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { InputWithLabel } from './components/inputWithLabel'
-export const CharacterGeneratorApp: FC = () => {
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
 
+
+/** メインアプリケーション */
+export const CharacterGeneratorApp: FC = () => {
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem key="test">
-                  <SidebarMenuButton asChild>
-                    <a href="#">
-                      <span>test</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+      <AppSidebar />
 
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
+      <div className="w-full">
+        <AppHeader />
 
-      <main className="w-full p-6">
-        <SidebarTrigger size="default" />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <InputWithLabel id="name" label={<>名前 <span className="form-label-note">(フルネーム、ふりがな)</span></>} placeholder="例: 鈴木 太郎 (すずき たろう)" />
-          <InputWithLabel id="name-origin" label={<>名前の由来 <span className="form-label-note">(任意)</span></>} placeholder="親が込めた意味など" />
-          <InputWithLabel id="gender" label={<>性別</>} placeholder="例: 男性" />
-          <InputWithLabel id="bloodtype" label={<>血液型</>} placeholder="例: A / B / O / AB" />
-          <InputWithLabel id="class" label={<>学年・クラス</>} placeholder="例: 高校2年A組" />
-          <InputWithLabel id="age" label={<>年齢</>} placeholder="例: 17" />
-          <InputWithLabel id="birthday" label={<>誕生日</>} placeholder="例: 4月1日 (牡羊座)" />
-          <InputWithLabel id="height" label={<>身長</>} placeholder="例: 175cm" />
-          <InputWithLabel id="weight" label={<>体重</>} placeholder="例: 普通、細身、65kg" />
-          <InputWithLabel id="firstPerson" label={<>一人称</>} placeholder="例: 俺 / 僕" />
-          <InputWithLabel id="secondPerson" label={<>二人称</>} placeholder="例: お前 / 君" />
-          <InputWithLabel id="nickname" label={<>呼ばれ方</>} placeholder="例: あだ名 / ニックネーム" />
-          <InputWithLabel id="birthplace" label={<>出身地 <span className="form-label-note">(任意)</span></>} placeholder="方言や文化的な影響のヒントに" />
-        </div>
-      </main>
+        <main className="p-6 mb-[50vh]">
+          <div className="space-y-6">
+            {inputGroups.map((group, idx) => (
+              <Card
+                id={group.id}
+                key={group.id}
+                className="scroll-mt-20"
+              >
+                <CardHeader>
+                  <CardTitle>{`${idx + 1}. ${group.title}`}</CardTitle>
+                  <CardDescription>{group.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {group.fields.map(field => (
+                    <InputWithLabel key={field.id} {...field} />
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </main>
+      </div>
     </SidebarProvider>
   )
 };
+
+
+/** 入力欄のグループ・フィールドの情報一覧 */
+const inputGroups = [
+  {
+    id: 'basicInformation',
+    title: '基本情報',
+    description: 'キャラクターの骨格となる基本的な情報を設定します。',
+    fields: [
+      { id: 'name', label: (<>名前 <span className="form-label-note">(フルネーム、ふりがな)</span></>), placeholder: '例: 鈴木 太郎 (すずき たろう)' },
+      { id: 'nameOrigin', label: (<>名前の由来 <span className="form-label-note">(任意)</span></>), placeholder: '親が込めた意味など' },
+      { id: 'gender', label: (<>性別</>), placeholder: '例: 男性' },
+      { id: 'bloodtype', label: (<>血液型</>), placeholder: '例: A / B / O / AB' },
+      { id: 'class', label: (<>学年・クラス</>), placeholder: '例: 高校2年A組' },
+      { id: 'age', label: (<>年齢</>), placeholder: '例: 17' },
+      { id: 'birthday', label: (<>誕生日</>), placeholder: '例: 4月1日 (牡羊座)' },
+      { id: 'height', label: (<>身長</>), placeholder: '例: 175cm' },
+      { id: 'weight', label: (<>体重</>), placeholder: '例: 普通、細身、65kg' },
+      { id: 'firstPerson', label: (<>一人称</>), placeholder: '例: 俺 / 僕' },
+      { id: 'secondPerson', label: (<>二人称</>), placeholder: '例: お前 / 君' },
+      { id: 'nickname', label: (<>呼ばれ方</>), placeholder: '例: あだ名 / ニックネーム' },
+      { id: 'birthplace', label: (<>出身地 <span className="form-label-note">(任意)</span></>), placeholder: '方言や文化的な影響のヒントに' },
+    ],
+  },
+  {
+    id: 'physicalChara',
+    title: '外見的特徴',
+    description: '読者がキャラクターを視覚的にイメージするための要素です。',
+    fields: [
+      { id: 'hair', label: (<>髪型・髪色</>), placeholder: '黒髪のショート、無造作ヘア' },
+      { id: 'eyes', label: (<>目の形・色</>), placeholder: '切れ長の黒い瞳、眠たげ' },
+      { id: 'clothing', label: (<>服装</>), placeholder: '普段はパーカーにジーンズ。制服は少し着崩している。古着が好き。' },
+      { id: 'physique', label: (<>体型</>), placeholder: '細身だが、部活で鍛えられている' },
+      { id: 'distinguishingFeatures', label: (<>特徴的なもの</>), placeholder: '左耳にシルバーのピアス、黒縁メガネ' },
+      { id: 'posture', label: (<>歩き方・姿勢</>), placeholder: '少し猫背気味、歩くのが速い' },
+      { id: 'atmosphere', label: (<>雰囲気</>), placeholder: '親しみやすい、少しミステリアス' },
+    ],
+  },
+  {
+    id: 'personality',
+    title: '性格・内面',
+    description: 'キャラクターの行動原理となる核心部分です。行動に一貫性のある人物像を創り出します。',
+    fields: [
+      { id: 'basePersonality', label: (<>基本的な性格</>), placeholder: '例: 明るい、マイペース、世話好き、少し人見知り' },
+      { id: 'strengths', label: (<>長所 <span className="form-label-note">(3つ以上)</span></>), placeholder: '・誰にでも平等に接する&#10;・一度決めたことはやり遂げる&#10;・友達思い' },
+      { id: 'weaknesses', label: (<>短所 <span className="form-label-note">(3つ以上)</span></>), placeholder: '・頑固で融通が利かないことがある&#10;・頼み事を断れない&#10;・朝が弱い' },
+      { id: 'quirks', label: (<>癖・口癖</>), placeholder: '考え事をするときにペンを回す。「まあ、いっか」が口癖。' },
+      { id: 'mindset', label: (<>考え方</>), placeholder: '基本的にポジティブ。物事を論理的に考える傾向がある。' },
+      { id: 'values', label: (<>価値観</>), placeholder: '誠実であること、約束を守ることを大切にしている。' },
+      { id: 'likes', label: (<>好きなもの</>), placeholder: '食べ物: ラーメン / 音楽: 邦ロック / 場所: 図書室 / 季節: 秋' },
+      { id: 'dislikes', label: (<>嫌いなもの</>), placeholder: '食べ物: ピーマン / 行動: 人の悪口を言うこと / 状況: 大勢の前で話すこと' },
+      { id: 'skills', label: (<>特技</>), placeholder: '料理が得意。特にチャーハン。' },
+      { id: 'interests', label: (<>興味・関心</>), placeholder: '最近カメラにハマっている。古いフィルムカメラが好き。' },
+      { id: 'stressRelief', label: (<>ストレス解消法</>), placeholder: '夜中に近所を散歩する、好きな音楽を大音量で聴く。' },
+      { id: 'complex', label: (<>コンプレックス</>), placeholder: '自分の意見を強く主張できないこと。' },
+      { id: 'secret', label: (<>秘密</>), placeholder: '小学生の頃、全国模試で一位を取ったことがある。' },
+      { id: 'dream', label: (<>夢・目標</>), placeholder: '短期目標: 次のテストで学年10位以内に入る。 / 長期目標: 世界中を旅すること。' },
+    ],
+  },
+  {
+    id: 'familyEnvironment',
+    title: '家庭環境・背景',
+    description: '家族構成や幼少期の出来事は、現在の性格や価値観に大きな影響を与えます。',
+    fields: [
+      { id: 'family', label: (<>家族構成</>), placeholder: '父、母、3歳年下の妹' },
+      { id: 'parentsRel', label: (<>両親との関係</>), placeholder: '良好。放任主義だが、いざという時は頼りになる。' },
+      { id: 'siblingsRel', label: (<>兄弟姉妹との関係</>), placeholder: '妹とは仲が良い。よく相談相手になっている。' },
+      { id: 'childhood', label: (<>幼少期の出来事</>), placeholder: '親の転勤で引っ越しが多かったため、人との距離の取り方を早くに学んだ。' },
+      { id: 'financial', label: (<>経済状況</>), placeholder: 'ごく一般的な家庭。' },
+      { id: 'home', label: (<>住居</>), placeholder: '郊外の一戸建て。' },
+      { id: 'pet', label: (<>ペットの有無</>), placeholder: '雑種の猫「タマ」を飼っている。' },
+    ],
+  },
+  {
+    id: 'relationships',
+    title: '人間関係',
+    description: '友人や恋人、SNSでの振る舞いなど、社会的な側面を明らかにしましょう。',
+    fields: [
+      { id: 'friends', label: (<>友人関係</>), placeholder: '2人の親友がいる。グループの中では聞き役になることが多い。' },
+      { id: 'classmates', label: (<>クラスメイト</>), placeholder: 'クラスでは目立たない方だが、一部の生徒とは親しい。' },
+      { id: 'teacher', label: (<>先生</>), placeholder: '数学の先生に懐いている。' },
+      { id: 'loveInterest', label: (<>恋人</>), placeholder: 'いない。恋愛には奥手。片思いの相手がいる。' },
+      { id: 'interpersonalSkills', label: (<>対人関係の傾向</>), placeholder: '初対面では少し壁を作るが、打ち解けるとよく話す。困っている人は放っておけない。' },
+      { id: 'sns', label: (<>SNSの利用</>), placeholder: '風景写真を投稿するアカウントを持っている。フォロワーは少ない。' },
+    ],
+  },
+  {
+    id: 'schoolLife',
+    title: '学園生活',
+    description: '得意科目や部活動など、学園生活の日常を描きましょう。',
+    fields: [
+      { id: 'bestSubject', label: (<>得意科目</>), placeholder: '数学（パズルのようで面白いから）' },
+      { id: 'worstSubject', label: (<>苦手科目</>), placeholder: '体育(団体行動が苦手だから)' },
+      { id: 'club', label: (<>部活動</>), placeholder: '写真部（幽霊部員）/ テニス部' },
+      { id: 'committee', label: (<>委員会</>), placeholder: '図書委員 / スマイル委員' },
+      { id: 'schoolRoutine', label: (<>学校での過ごし方</>), placeholder: '休み時間は基本読書。' },
+      { id: 'afterschoolRoutine', label: (<>放課後の過ごし方</>), placeholder: '放課後はすぐ帰る / 寄り道しがち' },
+      { id: 'attendance', label: (<>出席状況</>), placeholder: '無遅刻無欠席。' },
+      { id: 'grades', label: (<>成績</>), placeholder: '中の上。得意科目と苦手科目の差が激しい。' },
+      { id: 'schoolAttitude', label: (<>学校に対する考え</>), placeholder: '特に好きでも嫌いでもないが、静かに過ごせる図書室は好き。' },
+      { id: 'commute', label: (<>通学方法</>), placeholder: '自転車で20分。' },
+    ],
+  },
+  {
+    id: 'workHistory',
+    title: '職歴・職場環境',
+    description: '社会人のキャラクターの場合に、その職歴や職場環境について記述します。',
+    fields: [
+      { id: 'jobTitle', label: (<>現在の職業・役職</>), placeholder: '例: 会社員（営業職）、フリーランスのイラストレーター、カフェ店員' },
+      { id: 'workHistoryDetails', label: (<>職歴</>), placeholder: '例: 大学卒業後、IT企業に就職し3年。その後、現在の会社に転職。' },
+      { id: 'workplaceEnv', label: (<>職場環境</>), placeholder: '例: アットホームな雰囲気、成果主義で競争が激しい、人間関係が複雑' },
+      { id: 'workSatisfaction', label: (<>仕事への満足度</>), placeholder: '例: やりがいを感じている、給料のためと割り切っている、転職を考えている' },
+      { id: 'workRelationships', label: (<>職場での人間関係</>), placeholder: '例: 上司に慕われている、同僚とよく飲みに行く、孤立しがち' },
+    ],
+  },
+  {
+    id: 'worldview',
+    title: '世界観',
+    description: 'キャラクターが存在する世界の基本的な設定を記述します。',
+    fields: [
+      { id: 'worldEra', label: (<>時代・背景</>), placeholder: '例: 現代日本、近未来、異世界ファンタジー、大正時代' },
+      { id: 'worldTech', label: (<>科学技術レベル</>), placeholder: '例: 現代と同等、魔法と科学が共存、スチームパンク' },
+      { id: 'worldSociety', label: (<>社会システム・文化</>), placeholder: '例: 階級社会、自由主義、独自の宗教観、伝統的な文化が根強い' },
+      { id: 'worldMagic', label: (<>魔法・超能力の有無</>), placeholder: '例: 魔法が存在する、超能力者が稀にいる、一切ない' },
+      { id: 'worldUnique', label: (<>世界独自の要素</>), placeholder: '例: 異種族が存在する、特定の資源が枯渇している、天候が特殊' },
+    ],
+  },
+  {
+    id: 'combatElements',
+    title: '戦闘要素',
+    description: '※戦闘やバトルがある物語の場合に記述してください。',
+    fields: [
+      { id: 'weapon', label: (<>主要な武器</>), placeholder: '例: 片手剣、弓、拳銃、特殊なナイフ' },
+      { id: 'magic', label: (<>魔法・能力</>), placeholder: '例: 火属性の攻撃魔法、回復魔法、瞬間移動、相手の思考を読む能力' },
+      { id: 'combatStyle', label: (<>戦闘スタイル・格闘術</>), placeholder: '例: 接近戦主体、遠距離からの狙撃、カウンター重視、素早い動きで翻弄' },
+      { id: 'specialAbility', label: (<>特殊能力・必殺技</>), placeholder: '例: 一定時間身体能力が向上する、幻覚を見せる、絶対防御' },
+      { id: 'combatExperience', label: (<>戦闘経験・練度</>), placeholder: '例: 実戦経験豊富、訓練のみ、初心者、戦うことを避ける' },
+    ],
+  },
+  {
+    id: 'other',
+    title: 'その他',
+    description: 'キャラクターをさらに際立たせる細かな設定です。個性を豊かにするディテールを加えてみましょう。',
+    fields: [
+      { id: 'charmPoint', label: (<>チャームポイント</>), placeholder: '笑った時に見える八重歯' },
+      { id: 'room', label: (<>部屋の様子</>), placeholder: '本棚には本がぎっしり。全体的に整理整頓されているが、机の上だけ少し散らかっている。' },
+      { id: 'smartphone', label: (<>スマホの使い方</>), placeholder: '連絡はメッセージアプリ中心。ゲームはしない。' },
+      { id: 'holiday', label: (<>休日の過ごし方</>), placeholder: 'インドア派。一日中本を読んでいるか、映画を見ている。' },
+      { id: 'future', label: (<>将来の展望</>), placeholder: '大学で文学を学びたいと思っている。' },
+      { id: 'themeColor', label: (<>テーマカラー</>), placeholder: 'ネイビーブルー、アッシュグレー' },
+      { id: 'symbolItem', label: (<>キャラを象徴するアイテム</>), placeholder: '祖父の形見である古い万年筆' },
+    ],
+  },
+  {
+    id: 'roleInTheStory',
+    title: 'ストーリーでの役割',
+    description: '物語全体におけるキャラクターの立ち位置や役割を記述します。',
+    fields: [
+      { id: 'roleMain', label: (<>主要な役割</>), placeholder: '例: 主人公、ヒロイン、ライバル、主要な敵、物語の語り部' },
+      { id: 'roleSub', label: (<>サブ的な役割</>), placeholder: '例: 主人公を導く存在、ムードメーカー、トラブルメーカー、秘密を抱える協力者' },
+      { id: 'roleArc', label: (<>キャラクターアーク</>), placeholder: '例: 内向的だったが、仲間との出会いで積極的になる。復讐心から成長し、許しを知る。' },
+      { id: 'memo', label: (<>メモ</>), placeholder: '自由記入' },
+    ],
+  },
+  {
+    id: 'metaInformation',
+    title: '創作補助のためのメタ情報',
+    description: 'キャラクター作成者のための、物語には直接出てこない裏設定やインスピレーション源を記述します。',
+    fields: [
+      { id: 'motif', label: (<>モチーフ・イメージ</>), placeholder: '例: 猫、夜空、古城、探偵小説の主人公' },
+      { id: 'personalityModel', label: (<>モデルにした人物/キャラ</>), placeholder: '例: 友人の〇〇さんのマイペースな性格、アニメの〇〇の冷静さ' },
+      { id: 'designConcept', label: (<>デザインコンセプト</>), placeholder: '例: 知的な印象だが、どこか抜けている感じを出す。動きやすさを重視。' },
+      { id: 'creatorNotes', label: (<>作者メモ・裏設定</>), placeholder: '例: 実は甘いものが苦手。過去に一度だけ、感情的になったことがある。>' },
+    ],
+  },
+];
+
+/** サイドバー */
+const AppSidebar: FC = () => (
+  <Sidebar>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>入力フィールド</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem key="inputField">
+              {inputGroups.map((group, idx) => (
+                <SidebarMenuButton
+                  asChild
+                  key={group.id}
+                >
+                  <a href={`#${group.id}`}>{`${idx + 1}. ${group.title}`}</a>
+                </SidebarMenuButton>
+              ))}
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+);
+
+/** ヘッダー */
+const AppHeader: FC = () => (
+  <div className="w-[100%] h-16 p-3 sticky top-0 flex items-center bg-background">
+    <SidebarTrigger size="lg" />
+    <label className="text-2xl font-bold">キャラクタージェネレーター</label>
+  </div>
+);
