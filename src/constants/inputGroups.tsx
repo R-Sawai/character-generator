@@ -1,6 +1,19 @@
+import type { CharacterDataType } from "@/types/characterDataType";
+import type { ReactNode } from "react";
+
+type inputGroupsType = {
+  id: string;
+  title: string;
+  description: string;
+  fields: {
+    id: keyof CharacterDataType;
+    label: ReactNode;
+    placeholder: string;
+  }[];
+}[];
 
 /** 入力欄のグループ・フィールドの情報一覧 */
-export const inputGroups = [
+export const inputGroups: inputGroupsType = [
   {
     id: 'basicInformation',
     title: '基本情報',
