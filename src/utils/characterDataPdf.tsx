@@ -2,16 +2,15 @@
 import type { CharacterDataType } from '@/types/characterDataType';
 import { Page, Text, View, Document, StyleSheet, type DocumentProps, Font } from '@react-pdf/renderer';
 import { inputGroups } from './inputGroups';
-import { ROOT_PATH } from './constants';
 
 Font.register({
     family: 'NotoSansJP',
     fonts: [
         {
-            src: `${ROOT_PATH}fonts/NotoSansJP-Regular.ttf`,
+            src: `/character-generator/fonts/NotoSansJP-Regular.ttf`,
         },
         {
-            src: `${ROOT_PATH}fonts/NotoSansJP-Bold.ttf`,
+            src: `/character-generator/fonts/NotoSansJP-Bold.ttf`,
             fontWeight: 'bold',
         },
     ],
