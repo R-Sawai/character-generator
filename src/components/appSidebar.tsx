@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar';
-import { inputGroups } from "@/constants/inputGroups";
+import { inputGroups } from "@/utils/inputGroups";
 
 /** サイドバー */
 export const AppSidebar: FC = () => (

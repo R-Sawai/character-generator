@@ -1,12 +1,14 @@
 
 import { useState, type FC } from 'react';
-import { inputGroups } from './constants/inputGroups';
+import { inputGroups } from './utils/inputGroups';
 import { AppHeader } from './components/appHeader';
 import { SidebarProvider } from './components/ui/sidebar';
 import { AppSidebar } from './components/appSidebar';
 import { SectionCard } from './components/sectionCard';
 import type { CharacterDataType } from './types/characterDataType';
 import { Button } from './components/ui/button';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { CharacterDataPdf } from './utils/characterDataPdf';
 
 
 interface CharacterGeneratorAppProps {
@@ -27,9 +29,13 @@ export const CharacterGeneratorApp: FC<CharacterGeneratorAppProps> = (props) => 
         <main className='p-6'>
           <div className='space-y-6'>
             {/* アクションボタン */}
-            <div className='flex'>
+            <div className='flex gap-4'>
               <Button>クリア</Button>
-              <Button>PDF出力</Button>
+
+              <PDFDownloadLink document={<CharacterDataPdf characterData={charaData} />} >
+                <Button>PDF出力</Button>
+              </PDFDownloadLink>
+
             </div>
 
             {/* 各セクション */}
