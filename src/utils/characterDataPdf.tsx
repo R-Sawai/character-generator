@@ -7,10 +7,10 @@ Font.register({
     family: "NotoSansJP",
     fonts: [
         {
-            src: "../fonts/NotoSansJP-Regular.ttf",
+            src: "/fonts/NotoSansJP-Regular.ttf",
         },
         {
-            src: "../fonts/NotoSansJP-Bold.ttf",
+            src: "/fonts/NotoSansJP-Bold.ttf",
             fontWeight: "bold",
         },
     ],
