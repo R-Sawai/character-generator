@@ -1,5 +1,5 @@
-import { Input } from "./ui/input";
-import type { FC, ReactNode } from "react";
+import { Input } from './ui/input';
+import type { FC, ReactNode } from 'react';
 
 interface InputWithLabelProps {
     id: string;
@@ -11,10 +11,10 @@ interface InputWithLabelProps {
 
 export const InputWithLabel: FC<InputWithLabelProps> = (props) => {
     return (
-        <div className="grid w-full max-w-sm items-center gap-1">
+        <div className='grid w-full max-w-sm items-center gap-1'>
             <label>{props.label}</label>
             <Input
-                type="text"
+                type='text'
                 id={props.id}
                 placeholder={props.placeholder}
                 value={props.value}
