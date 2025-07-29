@@ -2,6 +2,8 @@ import type { FC, ReactNode } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { InputWithLabel } from "./inputWithLabel";
 import type { CharacterDataType } from "@/types/characterDataType";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHooks";
+import { setField } from "@/utils/characterDataSlice";
 
 
 interface SectionCardProps {
@@ -16,12 +18,13 @@ interface SectionCardProps {
             placeholder: string;
         }[];
     };
-    charaData: CharacterDataType;
-    setCharaData: React.Dispatch<React.SetStateAction<CharacterDataType>>;
 }
 
 /** 各セクションのカード要素 */
 export const SectionCard: FC<SectionCardProps> = (props) => {
+    const charaData = useAppSelector(state => state.characterData);
+    const dispatch = useAppDispatch();
+
     return (
         <Card
             id={props.group.id}
@@ -36,8 +39,11 @@ export const SectionCard: FC<SectionCardProps> = (props) => {
                     <InputWithLabel
                         key={field.id}
                         {...field}
-                        value={props.charaData[field.id as keyof CharacterDataType]}
-                        onChange={e => props.setCharaData(prev => ({ ...prev, [field.id]: e.target.value }))}
+                        value={charaData[field.id as keyof CharacterDataType]}
+                        onChange={e => dispatch(setField({
+                            key: field.id as keyof CharacterDataType,
+                            value: e.target.value
+                        }))}
                     />
                 ))}
             </CardContent>

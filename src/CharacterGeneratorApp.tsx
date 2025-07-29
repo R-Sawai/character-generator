@@ -1,23 +1,19 @@
 
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import { inputGroups } from './utils/inputGroups';
 import { AppHeader } from './components/appHeader';
 import { SidebarProvider } from './components/ui/sidebar';
 import { AppSidebar } from './components/appSidebar';
 import { SectionCard } from './components/sectionCard';
-import type { CharacterDataType } from './types/characterDataType';
 import { Button } from './components/ui/button';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { CharacterDataPdf } from './utils/characterDataPdf';
+import { useAppSelector } from './hooks/useAppHooks';
 
-
-interface CharacterGeneratorAppProps {
-  defaultCharacterData: CharacterDataType;
-}
 
 /** メインアプリケーション */
-export const CharacterGeneratorApp: FC<CharacterGeneratorAppProps> = (props) => {
-  const [charaData, setcharaData] = useState<CharacterDataType>(props.defaultCharacterData);
+export const CharacterGeneratorApp: FC = () => {
+  const charaData = useAppSelector(state => state.characterData);
 
   return (
     <SidebarProvider>
@@ -44,8 +40,6 @@ export const CharacterGeneratorApp: FC<CharacterGeneratorAppProps> = (props) => 
                 index={idx}
                 key={group.id}
                 group={group}
-                charaData={charaData}
-                setCharaData={setcharaData}
               />
             ))}
 

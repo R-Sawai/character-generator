@@ -1,11 +1,9 @@
+import './index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import { Provider } from 'react-redux';
 import { CharacterGeneratorApp } from './CharacterGeneratorApp'
-import { DefaultCharacterData } from './utils/defaultCharacterData';
-
-
-const charaData = new DefaultCharacterData();
+import { characterDataStore } from './utils/characterDataStore';
 
 
 // スクロールをスムーズにするよう変更
@@ -13,6 +11,8 @@ document.documentElement.className += ' scroll-smooth';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CharacterGeneratorApp defaultCharacterData={charaData} />
+    <Provider store={characterDataStore}>
+      <CharacterGeneratorApp />
+    </Provider>
   </StrictMode>,
 )
